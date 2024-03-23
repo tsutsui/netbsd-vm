@@ -70,6 +70,8 @@ The default shell in NetBSD is `ksh`, if you want to use `sh` to execute the `ru
 
 The code is shared from the host to the VM via `rsync` by default, you can choose to use to `sshfs` share code instead.
 
+The default netbsd-vm doesn't contain xbase and xcomp binaries. If you want to build X11 applications, please set `xsets` to `yes` to fetch and extract xbase and xcomp sets.
+
 
 ```
 
@@ -84,6 +86,7 @@ The code is shared from the host to the VM via `rsync` by default, you can choos
         envs: 'MYTOKEN MYTOKEN2'
         usesh: true
         sync: sshfs
+        xsets: yes
         prepare: |
           /usr/sbin/pkg_add curl
 

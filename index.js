@@ -91,6 +91,16 @@ async function setup(nat, mem) {
     let cmd1 = "mkdir -p " + process.env["HOME"] + "/work && ln -s " + process.env["HOME"] + "/work/  work";
     await execSSH(cmd1, "Setting up VM");
 
+    let sync = core.getInput("xsets");
+    if(xsets == "yes") {
+      let setsurl = "http://cdn.NetBSD.org/pub/NetBSD/NetBSD-`uname -r`/`uname -m`/binary/sets/";
+      let extdirs = "./usr/X11R7/bin ./usr/X11R7/include ./usr/X11R7/lib ./usr/X11R7/share";
+      let xbasecmd = "/usr/bin/ftp -o - " + setsurl + "xbase.tar.xz | /usr/bin/tar -C / -zxpf - " + extdirs;
+    await execSSH(xbasecmd, "Installing xbase set");
+      let xcompcmd = "/usr/bin/ftp -o - " + setsurl + "xcomp.tar.xz | /usr/bin/tar -C / -zxpf - " + extdirs;
+      await execSSH(xcompcmd, "Installing xcomp set");
+    }
+
     let sync = core.getInput("sync");
     if(sync == "no") {
       core.info("Don't sync files, OK");
